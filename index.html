@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>TodoApp</title>
+</head>
+
+<body>
+    <main class="todo-app">
+        <header class="todo-app__header">
+            <h1 class="todo-app__title">Lista de Tareas</h1>
+        </header>
+        <section class="todo-app__section">
+            <form action="#" class="todo-app__form">
+                <div class="todo-app__field">
+                    <label class="todo-app__label" for="todo-title">Titulo: </label>
+                    <input class="todo-app__input" type="text" id="todo-title" name="title">
+                </div>
+                <div class="todo-app__field">
+                    <label class="todo-app__label" for="todo-description">Descripcion: </label>
+                    <textarea class="todo-app__textarea" name="description" id="todo-description" cols="30"
+                        rows="10"></textarea>
+                </div>
+                <button class="todo-app__button" type="submit">Agregar Tarea</button>
+            </form>
+        </section>
+        <section class="todo-app__section">
+            <h2 class="todo-app__subtitle">Lista de Tareas</h2>
+            <div class="todo-app__list">
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 id="modal-title" class="modal__title"></h2>
+                <button id="modal-close" class="modal__close">&times;</button>
+            </div>
+            <div class="modal__body">
+                <!-- Modo Vista -->
+                <div id="modal-view" class="modal__view">
+                    <div class="modal__field">
+                        <label class="modal__label">Descripción:</label>
+                        <p id="modal-description" class="modal__description"></p>
+                    </div>
+                    <div class="modal__field">
+                        <label class="modal__label">
+                            <input type="checkbox" id="modal-completed" class="modal__checkbox" disabled>
+                            Marcar como completada
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Modo Edición -->
+                <div id="modal-edit" class="modal__edit" style="display: none;">
+                    <div class="modal__field">
+                        <label class="modal__label" for="modal-edit-title">Título:</label>
+                        <input type="text" id="modal-edit-title" class="modal__input" placeholder="Ingrese el título">
+                    </div>
+                    <div class="modal__field">
+                        <label class="modal__label" for="modal-edit-description">Descripción:</label>
+                        <textarea id="modal-edit-description" class="modal__textarea"
+                            placeholder="Ingrese la descripción" rows="6"></textarea>
+                    </div>
+                    <div class="modal__field">
+                        <label class="modal__label">
+                            <input type="checkbox" id="modal-edit-completed" class="modal__checkbox">
+                            Marcar como completada
+                        </label>
+                    </div>
+                    <div class="modal__actions">
+                        <button id="modal-save" class="modal__button modal__button--save">Guardar Cambios</button>
+                        <button id="modal-cancel" class="modal__button modal__button--cancel">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./script.js"></script>
+</html>
