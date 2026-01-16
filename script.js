@@ -2,29 +2,24 @@
 let tasks = [];
 let taskBeingEditedId = null;
 let currentTaskViewId = null;
-let modalMode = null; // "view" o "edit"
+let isEditingMode = false;
 
 // ===== Elementos del DOM =====
 const titleInput = document.getElementById("todo-title");
 const descriptionInput = document.getElementById("todo-description");
+const titleError = document.getElementById("title-error");
 const taskList = document.querySelector(".todo-app__list");
 const submitButton = document.querySelector(".todo-app__button");
 
 // Modal
 const taskModal = document.getElementById("task-modal");
 const modalTitle = document.getElementById("modal-title");
-const modalDescription = document.getElementById("modal-description");
-const modalCompleted = document.getElementById("modal-completed");
+const modalTitleInput = document.getElementById("modal-title-input");
+const modalTitleError = document.getElementById("modal-title-error");
+const modalDescriptionInput = document.getElementById("modal-description-input");
+const modalCompletedInput = document.getElementById("modal-completed-input");
 const modalClose = document.getElementById("modal-close");
-
-// Modal - Vista
-const modalView = document.getElementById("modal-view");
-
-// Modal - Edición
-const modalEdit = document.getElementById("modal-edit");
-const modalEditTitle = document.getElementById("modal-edit-title");
-const modalEditDescription = document.getElementById("modal-edit-description");
-const modalEditCompleted = document.getElementById("modal-edit-completed");
+const modalEditBtn = document.getElementById("modal-edit-btn");
 const modalSaveBtn = document.getElementById("modal-save");
 const modalCancelBtn = document.getElementById("modal-cancel");
 
@@ -99,61 +94,61 @@ function openTaskModal(taskId) {
   if (!task) return;
 
   currentTaskViewId = taskId;
-  modalMode = "view";
-  
-  // Mostrar vista, ocultar edición
-  modalView.style.display = "block";
-  modalEdit.style.display = "none";
+  isEditingMode = false;
   
   modalTitle.textContent = task.title;
-  modalDescription.textContent = task.description || "Sin descripción";
-  modalCompleted.checked = task.completed;
+  modalTitleInput.value = task.title;
+  modalDescriptionInput.value = task.description || "";
+  modalCompletedInput.checked = task.completed;
+  
+  // Ocultar mensaje de error
+  modalTitleError.style.display = "none";
+  
+  setModalEditMode(false);
+  
   taskModal.classList.add("modal--active");
 }
 
-function openTaskModalForEdit(taskId) {
-  const task = tasks.find((task) => task.id === taskId);
-
-  if (!task) return;
-
-  currentTaskViewId = taskId;
-  modalMode = "edit";
+function setModalEditMode(isEditing) {
+  isEditingMode = isEditing;
   
-  // Ocultar vista, mostrar edición
-  modalView.style.display = "none";
-  modalEdit.style.display = "block";
+  modalTitleInput.disabled = !isEditing;
+  modalDescriptionInput.disabled = !isEditing;
+  modalCompletedInput.disabled = !isEditing;
   
-  modalTitle.textContent = task.title;
-  modalEditTitle.value = task.title;
-  modalEditDescription.value = task.description || "";
-  modalEditCompleted.checked = task.completed;
-  taskModal.classList.add("modal--active");
+  modalEditBtn.style.display = isEditing ? "none" : "inline-block";
+  modalSaveBtn.style.display = isEditing ? "inline-block" : "none";
+  modalCancelBtn.style.display = isEditing ? "inline-block" : "none";
   
-  modalEditTitle.focus();
+  if (isEditing) {
+    modalTitleInput.focus();
+  }
 }
 
 function closeTaskModal() {
   currentTaskViewId = null;
-  modalMode = null;
+  isEditingMode = false;
   taskModal.classList.remove("modal--active");
 }
 
 function saveTaskFromModal() {
   if (currentTaskViewId === null) return;
 
-  const title = modalEditTitle.value.trim();
-  const description = modalEditDescription.value.trim();
+  const title = modalTitleInput.value.trim();
+  const description = modalDescriptionInput.value.trim();
 
   if (!title) {
-    console.warn("El título es obligatorio");
+    modalTitleError.style.display = "block";
     return;
   }
+
+  modalTitleError.style.display = "none";
 
   const task = tasks.find((task) => task.id === currentTaskViewId);
   if (task) {
     task.title = title;
     task.description = description;
-    task.completed = modalEditCompleted.checked;
+    task.completed = modalCompletedInput.checked;
   }
 
   saveTasks();
@@ -195,9 +190,11 @@ submitButton.addEventListener("click", (e) => {
   const description = descriptionInput.value.trim();
 
   if (!title) {
-    console.warn("El título es obligatorio");
+    titleError.style.display = "block";
     return;
   }
+
+  titleError.style.display = "none";
 
   if (taskBeingEditedId !== null) {
     updateTask(taskBeingEditedId, title, description);
@@ -223,7 +220,8 @@ taskList.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("todo-app__button--edit")) {
-    openTaskModalForEdit(taskId);
+    openTaskModal(taskId);
+    setModalEditMode(true);
   }
 });
 
@@ -236,6 +234,10 @@ taskList.addEventListener("change", (e) => {
 
 // Modal Events
 modalClose.addEventListener("click", closeTaskModal);
+
+modalEditBtn.addEventListener("click", () => {
+  setModalEditMode(true);
+});
 
 modalSaveBtn.addEventListener("click", saveTaskFromModal);
 

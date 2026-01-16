@@ -18,6 +18,7 @@
                 <div class="todo-app__field">
                     <label class="todo-app__label" for="todo-title">Titulo: </label>
                     <input class="todo-app__input" type="text" id="todo-title" name="title">
+                    <span id="title-error" class="todo-app__error" style="display: none;">El título es obligatorio</span>
                 </div>
                 <div class="todo-app__field">
                     <label class="todo-app__label" for="todo-description">Descripcion: </label>
@@ -43,40 +44,27 @@
                 <button id="modal-close" class="modal__close">&times;</button>
             </div>
             <div class="modal__body">
-                <!-- Modo Vista -->
-                <div id="modal-view" class="modal__view">
+                <div class="modal__form">
                     <div class="modal__field">
-                        <label class="modal__label">Descripción:</label>
-                        <p id="modal-description" class="modal__description"></p>
+                        <label class="modal__label" for="modal-title-input">Título:</label>
+                        <input type="text" id="modal-title-input" class="modal__input" placeholder="Ingrese el título" disabled required>
+                        <span id="modal-title-error" class="modal__error" style="display: none;">El título es obligatorio</span>
+                    </div>
+                    <div class="modal__field">
+                        <label class="modal__label" for="modal-description-input">Descripción:</label>
+                        <textarea id="modal-description-input" class="modal__textarea"
+                            placeholder="Ingrese la descripción" rows="6" disabled></textarea>
                     </div>
                     <div class="modal__field">
                         <label class="modal__label">
-                            <input type="checkbox" id="modal-completed" class="modal__checkbox" disabled>
-                            Marcar como completada
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Modo Edición -->
-                <div id="modal-edit" class="modal__edit" style="display: none;">
-                    <div class="modal__field">
-                        <label class="modal__label" for="modal-edit-title">Título:</label>
-                        <input type="text" id="modal-edit-title" class="modal__input" placeholder="Ingrese el título">
-                    </div>
-                    <div class="modal__field">
-                        <label class="modal__label" for="modal-edit-description">Descripción:</label>
-                        <textarea id="modal-edit-description" class="modal__textarea"
-                            placeholder="Ingrese la descripción" rows="6"></textarea>
-                    </div>
-                    <div class="modal__field">
-                        <label class="modal__label">
-                            <input type="checkbox" id="modal-edit-completed" class="modal__checkbox">
+                            <input type="checkbox" id="modal-completed-input" class="modal__checkbox" disabled>
                             Marcar como completada
                         </label>
                     </div>
                     <div class="modal__actions">
-                        <button id="modal-save" class="modal__button modal__button--save">Guardar Cambios</button>
-                        <button id="modal-cancel" class="modal__button modal__button--cancel">Cancelar</button>
+                        <button id="modal-edit-btn" class="modal__button modal__button--edit">Editar</button>
+                        <button id="modal-save" class="modal__button modal__button--save" style="display: none;">Guardar Cambios</button>
+                        <button id="modal-cancel" class="modal__button modal__button--cancel" style="display: none;">Cancelar</button>
                     </div>
                 </div>
             </div>

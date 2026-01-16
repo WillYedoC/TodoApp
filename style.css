@@ -73,6 +73,13 @@ body {
   color: var(--color-text-secondary);
 }
 
+.todo-app__error {
+  font-size: 12px;
+  color: var(--color-danger);
+  margin-top: 4px;
+  display: block;
+}
+
 .todo-app__input,
 .todo-app__textarea {
   padding: 8px 10px;
@@ -241,6 +248,13 @@ body {
   margin-bottom: 12px;
 }
 
+.modal__error {
+  font-size: 12px;
+  color: var(--color-danger);
+  margin-top: 4px;
+  display: block;
+}
+
 .modal__label {
   font-size: 14px;
   margin-bottom: 4px;
@@ -267,8 +281,19 @@ body {
   border-color: var(--color-primary);
 }
 
+.modal__input:disabled,
+.modal__textarea:disabled {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-light);
+}
+
 .modal__checkbox {
   margin-right: 6px;
+}
+
+.modal__checkbox:disabled {
+  opacity: 0.7;
 }
 
 /* ===== Modal actions ===== */
@@ -295,4 +320,9 @@ body {
 .modal__button--cancel {
   background-color: var(--color-secondary);
   color: white;
+}
+
+.modal__button--edit {
+  background-color: var(--color-warning);
+  color: var(--color-text-primary);
 }
